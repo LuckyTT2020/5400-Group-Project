@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1> Amazon  </h1>
+    <table>
+        <tr>
+            <th>Amazon Purchase Query System</th>
+        </tr>
+        <tr>
+            <td>Find the product that you love</td>
+        </tr>
+    </table>
+    <form action="/data" method="POST">
+        <p>Rating <input type = "text" name = "Rating" /></p>
+        <p>Product <input type = "text" name = "Product" /></p>
+        <p><input type = "submit" value = "search" /></p>
+    </form>
+</div>
+{% endblock %}
