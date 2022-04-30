@@ -1,3 +1,0 @@
-task_content=request.form['content']
-# first, cd the location of app.py
-python3 app.py
