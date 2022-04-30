@@ -2,8 +2,20 @@
 
 ###   This project develop query search system for users to find desired product with correct rating score through typing in the keyword for search. The goal of this project is to provide product recommendations on user end and collect users' selection for organization analysis. The data collection is fetch from existing Kaggle dataset called Amazon Review.
 
-## The project use flask as the html creating tool to display the user interface and connect to MongoDB database for query search.
+##### The project use flask as the html creating tool to display the user interface and connect to MongoDB database for query search.
+> 1.The localhost website is formulated using html file.\
+> \
+> 2. Users type in keyword and rating and search on the localhost website.\
+> \
+> 3. The request is sent with flask to local MongoDB on docker.\
+> \
+> 4. Keyword and rating input will be put in query function to create new query item.\
+> \
+> 5. The file processes the query search and get query results.\
+> \
+> 6. Query results are sent back to the localhost website and being displayed for customers.\
 
+##### Prerequisites:
 1. set up virtualn enviroment\
 `$ pip3 install virtualenv` \
 `$ virtualenv env`  \
@@ -11,7 +23,8 @@
 2. download flask and run \
 
 
-
+3. Docker pull for mongoDB image
+`$ docker pull mongo` \
 
 
 
@@ -26,9 +39,6 @@ Type in desirable search keyword and the product overall rating you want to, sca
 The page will display a list of products from Amazon Review Records to provide suggesting products for customers.\
 
 
-Docker Part\
-  Docker is required for MongoDB database, Please visit Mongodb website to find suitable ways to pull the image\
-  For most of the cases, `$ docker pull mongo` \
 
 
 
