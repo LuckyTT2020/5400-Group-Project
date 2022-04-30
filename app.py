@@ -43,10 +43,7 @@ def index():
     else:
         return render_template('index.html')
 
-# 
-@app.route('/search_analysis')
-def ping_server():
-    return "Welcome to the Amazon Query."
+
 
 if __name__=="__main__":
     app.run(debug=True)
