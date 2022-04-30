@@ -1,27 +1,52 @@
 from crypt import methods
-from flask import Flask, render_template, url_for, request
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, jsonify
+import json
+import pymongo
+from pymongo import MongoClient
 from datetime import datetime
 
 app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
-db=SQLAlchemy(app)
 
-class Todo(db.Model):
-    id =  db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+def get_db():
+    client = MongoClient(host='test_mongodb',
+                         port=27017, 
+                         username='root', 
+                         password='pass',
+                        authSource="admin")
+    db = client["amazon_db"]
+    return db
 
-    def __repr__(self):
-        return '<Task %r>' % self.id
+@app.route('/')
+def ping_server():
+    return "Welcome to the Amazon Query."
 
-
-@app.route('/', methods=['POST','GET'])
-def index():
+@app.route('/to_query', methods=['POST','GET'])
+def index():    
     if request.method=='POST':
-        return('list1: angela; list2: baby')
+        amazon_rating=request.from['Rating']
+        amazon_product=request.from['Product']
+        db=""
+        try:
+            db = get_db()
+            query_5 = { 
+            "rating": { 
+                "$gte": amazon_rating
+            },
+            "itemName": {
+                "$regex": amazon_product,
+                "$options": "i"
+            }
+            }                
+            _amazons = db.amazon_tb.find(query_5)
+            amazons = [{ "name": amazon["name"],"price": amazon["price"], "rating": amazon["rating"]} for amazon in _amazons]
+            return jsonify({"amazons": amazons})        
     else:
         return render_template('index.html')
+
+# 
+@app.route('/search_analysis')
+def ping_server():
+    return "Welcome to the Amazon Query."
 
 if __name__=="__main__":
     app.run(debug=True)
