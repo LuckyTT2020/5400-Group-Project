@@ -59,7 +59,7 @@ def index():
 # based on customers' searching history, then show the most popular searches
 @app.route('/search_analysis')
 def query_search():
-    history_results=df_search_sql.sort_values('history_search').groupby('history_search')
+    history_results=df_search_sql.sort_values('history_search').groupby('history_search').head()
     return history_results
 
 
