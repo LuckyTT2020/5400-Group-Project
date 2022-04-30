@@ -1,11 +1,21 @@
 from crypt import methods
+import numpy as np
 from flask import Flask, render_template, request, jsonify
 import json
+import pandas as pd
+import numpy as np
 import pymongo
 from pymongo import MongoClient
 from datetime import datetime
+import sqlite3
+import sqlalchemy
 
 app=Flask(__name__)
+
+engine = sqlalchemy.create_engine('sqlite:///amazon_search_history.db')
+df_search.to_sql('search_history',engine,if_exists='replace',index=False)
+df_search_sql=pd.read_sql('SELECT history_search',engine)
+
 
 def get_db():
     client = MongoClient(host='test_mongodb',
@@ -25,6 +35,9 @@ def index():
     if request.method=='POST':
         amazon_rating=request.from['Rating']
         amazon_product=request.from['Product']
+        # insert search data into SQL-databse
+        engine.session.db(amazon_product)
+        # return the results from mongodb_databse
         db=""
         try:
             db = get_db()
@@ -43,6 +56,11 @@ def index():
     else:
         return render_template('index.html')
 
+# based on customers' searching history, then show the most popular searches
+@app.route('/search_analysis')
+def query_search():
+    history_results=df_search_sql.sort_values('history_search').groupby('history_search')
+    return history_results
 
 
 if __name__=="__main__":
